@@ -1,42 +1,39 @@
 package com.keyin.airport;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.keyin.city.City;
-import com.keyin.aircraft.Aircraft;
+import com.keyin.flight.Flight;
 import jakarta.persistence.*;
-
 import java.util.List;
-
 
 @Entity
 public class Airport {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String code;
+
+    @Column
     private String location;
 
-
-    // Relationship with City
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
-    //@JsonBackReference  // Avoids recursion
-    private City city;
+    private com.keyin.city.City city;
 
-    // Relationship with Aircraft
     @ManyToMany(mappedBy = "airports")
-    @JsonBackReference
-    private List<Aircraft> aircraft;
+    private List<com.keyin.aircraft.Aircraft> aircraft;
 
-    public Airport() {}
+    @OneToMany(mappedBy = "originAirport")
+    private List<Flight> departingFlights;
 
-    public Airport(String name, String code) {
-        this.name = name;
-        this.code = code;
-        this.location = location;
-        this.city = city;
-    }
+    @OneToMany(mappedBy = "destinationAirport")
+    private List<Flight> arrivingFlights;
+
+    // Getters and Setters
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -47,15 +44,18 @@ public class Airport {
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
 
-    public City getCity() { return city; }
-    public void setCity(City city) { this.city = city; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public String getLocation() {
-        return location; }
+    public com.keyin.city.City getCity() { return city; }
+    public void setCity(com.keyin.city.City city) { this.city = city; }
 
-    public void setLocation(String location) {
-        this.location = location; }
+    public List<com.keyin.aircraft.Aircraft> getAircraft() { return aircraft; }
+    public void setAircraft(List<com.keyin.aircraft.Aircraft> aircraft) { this.aircraft = aircraft; }
 
-    public List<Aircraft> getAircraft() { return aircraft; }
-    public void setAircraft(List<Aircraft> aircraft) { this.aircraft = aircraft; }
+    public List<Flight> getDepartingFlights() { return departingFlights; }
+    public void setDepartingFlights(List<Flight> departingFlights) { this.departingFlights = departingFlights; }
+
+    public List<Flight> getArrivingFlights() { return arrivingFlights; }
+    public void setArrivingFlights(List<Flight> arrivingFlights) { this.arrivingFlights = arrivingFlights; }
 }
