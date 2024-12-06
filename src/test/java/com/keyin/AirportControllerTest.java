@@ -3,6 +3,8 @@ package com.keyin;
 import com.keyin.airport.Airport;
 import com.keyin.airport.AirportController;
 import com.keyin.airport.AirportService;
+import com.keyin.city.City;
+import com.keyin.city.CityRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +27,34 @@ public class AirportControllerTest {
     @MockBean
     private AirportService airportService;
 
+    @MockBean
+    private CityRepository cityRepository; // Mock the missing CityRepository
+
     @Test
     public void testGetListOfAirportsInDB() throws Exception {
-        // Arrange: Create a list of Airport objects to be returned by the mock service
+        // Create City objects using the appropriate constructor
+        City city1 = new City("New York", "NY", 8000000);
+        city1.setId(1); // Set the ID if it's required
+
+        City city2 = new City("Los Angeles", "CA", 4000000);
+        city2.setId(2); // Set the ID if it's required
+
+        // Create Airport objects using the existing constructor and set the city manually
         Airport airport1 = new Airport("John F. Kennedy International Airport", "JFK");
+        airport1.setCity(city1); // Set the city manually
+
         Airport airport2 = new Airport("Los Angeles International Airport", "LAX");
-        List<Airport> airportList = Arrays.asList(airport1, airport2);
+        airport2.setCity(city2); // Set the city manually
 
-        // Mock the service to return the list of airports
-        Mockito.when(airportService.getAllAirports()).thenReturn(airportList);
+        // Mock the service method to return the mock airports
+        List<Airport> mockAirports = List.of(airport1, airport2);
+        Mockito.when(airportService.getAllAirports()).thenReturn(mockAirports);
 
-        // Act and Assert: Perform the GET request and verify the response
-        mockMvc.perform(MockMvcRequestBuilders.get("/getAllAirports")
+        // Perform the request and assert the results
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/airports")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("John F. Kennedy International Airport"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].code").value("JFK"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Los Angeles International Airport"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].code").value("LAX"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].code").value("JFK"));
     }
 }

@@ -1,7 +1,12 @@
 package com.keyin.airport;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.keyin.aircraft.Aircraft;
 import com.keyin.flight.Flight;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,13 +30,25 @@ public class Airport {
     private com.keyin.city.City city;
 
     @ManyToMany(mappedBy = "airports")
-    private List<com.keyin.aircraft.Aircraft> aircraft;
+    //@JsonManagedReference  // This ensures the forward reference in `Airport` will be serialized
+    @JsonIgnore
+    private List<Aircraft> aircraft = new ArrayList<>();
 
     @OneToMany(mappedBy = "originAirport")
     private List<Flight> departingFlights;
 
     @OneToMany(mappedBy = "destinationAirport")
     private List<Flight> arrivingFlights;
+
+    // Default Constructor
+    public Airport() {
+    }
+
+    // Parameterized Constructor
+    public Airport(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
 
     // Getters and Setters
 

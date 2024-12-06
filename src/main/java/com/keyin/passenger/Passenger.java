@@ -1,10 +1,12 @@
 package com.keyin.passenger;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.keyin.aircraft.Aircraft;
 import com.keyin.airport.Airport;
 import com.keyin.city.City;
+import com.keyin.flight.Flight;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +31,18 @@ public class Passenger {
             joinColumns = @JoinColumn(name = "passenger_id"),
             inverseJoinColumns = @JoinColumn(name = "aircraft_id")
     )
-    @JsonBackReference
+
+    //@JsonBackReference
+    @JsonIgnore
     private List<Aircraft> aircraftList = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "flight_passenger",
+            joinColumns = @JoinColumn(name = "passenger_id"),
+            inverseJoinColumns = @JoinColumn(name = "flight_id")
+    )
+    private List<Flight> flights;
 
     // New field to store the associated airport
     @ManyToOne

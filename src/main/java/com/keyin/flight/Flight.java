@@ -47,8 +47,11 @@ public class Flight {
     @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline; // The airline operating this flight
 
-    @OneToMany(mappedBy = "flight")
-    private List<Passenger> passengers; // Optional, if passengers are tracked.
+    //@OneToMany(mappedBy = "flight")
+   //private List<Passenger> passengers; // Optional, if passengers are tracked.
+
+    @ManyToMany(mappedBy = "flights")
+    private List<Passenger> passengers;
 
     // Getters and Setters
     public Long getId() {
