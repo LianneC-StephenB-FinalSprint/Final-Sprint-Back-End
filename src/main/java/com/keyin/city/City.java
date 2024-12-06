@@ -1,4 +1,4 @@
-    package com.keyin.city;
+package com.keyin.city;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

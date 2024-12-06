@@ -69,8 +69,10 @@ public class PassengerControllerTest {
 
         mockMvc.perform(post("/api/passengers")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
                         .content(passengerJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()) // Check for HTTP 200 OK response
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)) // Ensure JSON response
                 .andExpect(jsonPath("$.firstName").value("Robert"))
                 .andExpect(jsonPath("$.lastName").value("Brown"))
                 .andExpect(jsonPath("$.phoneNumber").value("333333333"));
