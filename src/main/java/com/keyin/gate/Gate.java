@@ -1,5 +1,6 @@
 package com.keyin.gate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Gate {
     private String terminal; // Terminal name, e.g., "Terminal 1"
 
     @OneToMany(mappedBy = "gate")
+    @JsonIgnore
     private List<Flight> flights; // Flights assigned to this gate
 
     // Getters and Setters

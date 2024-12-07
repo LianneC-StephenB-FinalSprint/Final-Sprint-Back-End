@@ -1,5 +1,6 @@
 package com.keyin.airline;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Airline {
     private String code; // Airline code, e.g., "DL"
 
     @OneToMany(mappedBy = "airline")
+    @JsonIgnore
     private List<com.keyin.flight.Flight> flights; // Flights operated by this airline
 
     // Getters and Setters

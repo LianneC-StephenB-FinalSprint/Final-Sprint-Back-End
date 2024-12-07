@@ -35,9 +35,11 @@ public class Airport {
     private List<Aircraft> aircraft = new ArrayList<>();
 
     @OneToMany(mappedBy = "originAirport")
+    @JsonIgnore
     private List<Flight> departingFlights;
 
     @OneToMany(mappedBy = "destinationAirport")
+    @JsonIgnore
     private List<Flight> arrivingFlights;
 
     // Default Constructor
