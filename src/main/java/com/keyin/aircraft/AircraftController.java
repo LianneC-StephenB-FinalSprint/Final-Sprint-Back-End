@@ -22,7 +22,7 @@ public class AircraftController {
     }
 
     @GetMapping("/{id}")
-    public Aircraft getAircraftById(@PathVariable Integer id) {
+    public Aircraft getAircraftById(@PathVariable Long id) {
         return aircraftService.getAircraftById(id);
     }
 
@@ -32,12 +32,12 @@ public class AircraftController {
     }
 
     @PutMapping("/{id}")
-    public Aircraft updateAircraft(@PathVariable Integer id, @RequestBody Aircraft aircraft) {
+    public Aircraft updateAircraft(@PathVariable Long id, @RequestBody Aircraft aircraft) {
         return aircraftService.updateAircraft(id, aircraft);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAircraft(@PathVariable Integer id) {
+    public void deleteAircraft(@PathVariable Long id) {
         aircraftService.deleteAircraft(id);
     }
 
@@ -45,30 +45,30 @@ public class AircraftController {
 
     // Get airports where the aircraft can take off and land
     @GetMapping("/{id}/airports")
-    public List<Airport> getAirportsForAircraft(@PathVariable Integer id) {
+    public List<Airport> getAirportsForAircraft(@PathVariable Long id) {
         return aircraftService.getAirportsForAircraft(id);
     }
 
     // Get passengers who have traveled on this aircraft
     @GetMapping("/{id}/passengers")
-    public List<Passenger> getPassengersForAircraft(@PathVariable Integer id) {
+    public List<Passenger> getPassengersForAircraft(@PathVariable Long id) {
         return aircraftService.getPassengersForAircraft(id);
     }
 
     // Add an airport to an aircraft
     @PostMapping("/{id}/airports/{airportId}")
-    public Aircraft addAirportToAircraft(@PathVariable Integer id, @PathVariable Integer airportId) {
+    public Aircraft addAirportToAircraft(@PathVariable Long id, @PathVariable Long airportId) {
         return aircraftService.addAirportToAircraft(id, airportId);
     }
 
     // Add a passenger to an aircraft
     @PostMapping("/{id}/passengers/{passengerId}")
-    public Aircraft addPassengerToAircraft(@PathVariable Integer id, @PathVariable Integer passengerId) {
+    public Aircraft addPassengerToAircraft(@PathVariable Long id, @PathVariable Long passengerId) {
         return aircraftService.addPassengerToAircraft(id, passengerId);
     }
 
     @PutMapping("/{id}/airports")
-    public Aircraft updateAircraftAirports(@PathVariable Integer id, @RequestBody List<Integer> airportIds) {
+    public Aircraft updateAircraftAirports(@PathVariable Long id, @RequestBody List<Long> airportIds) {
         return aircraftService.updateAircraftAirports(id, airportIds);
     }
 }

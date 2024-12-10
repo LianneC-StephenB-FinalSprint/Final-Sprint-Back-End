@@ -1,5 +1,6 @@
 package com.keyin.flight;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,42 +17,57 @@ public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Primary key, auto-generated
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    private String flightNumber; // Unique flight identifier
+    private String flightNumber;
 
     @Column(nullable = false)
-    private LocalDateTime departureTime; // Departure time
+    private LocalDateTime departureTime;
 
     @Column(nullable = false)
-    private LocalDateTime arrivalTime; // Arrival time
+    private LocalDateTime arrivalTime;
 
     @ManyToOne
     @JoinColumn(name = "origin_airport_id", nullable = false)
-    private Airport originAirport; // Origin airport relationship
+    @JsonBackReference
+    private Airport originAirport;
 
     @ManyToOne
     @JoinColumn(name = "destination_airport_id", nullable = false)
-    private Airport destinationAirport; // Destination airport relationship
+    @JsonBackReference
+    private Airport destinationAirport;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "aircraft_id", nullable = false)
-    private Aircraft aircraft; // Aircraft relationship
+    private Aircraft aircraft;
 
     @ManyToOne
     @JoinColumn(name = "gate_id")
-    private Gate gate; // Gate relationship
+    private Gate gate;
 
     @ManyToOne
     @JoinColumn(name = "airline_id", nullable = false)
-    private Airline airline; // The airline operating this flight
-
-    //@OneToMany(mappedBy = "flight")
-   //private List<Passenger> passengers; // Optional, if passengers are tracked.
+    private Airline airline;
 
     @ManyToMany(mappedBy = "flights")
     private List<Passenger> passengers;
+
+    public Gate getGate() {
+        return gate;
+    }
+
+    public void setGate(Gate gate) {
+        this.gate = gate;
+    }
+
+    public Airline getAirline() {
+        return airline;
+    }
+
+    public void setAirline(Airline airline) {
+        this.airline = airline;
+    }
 
     // Getters and Setters
     public Long getId() {
@@ -110,27 +126,4 @@ public class Flight {
         this.aircraft = aircraft;
     }
 
-    public Gate getGate() {
-        return gate;
-    }
-
-    public void setGate(Gate gate) {
-        this.gate = gate;
-    }
-
-    public Airline getAirline() {
-        return airline;
-    }
-
-    public void setAirline(Airline airline) {
-        this.airline = airline;
-    }
-
-    public List<Passenger> getPassengers() {
-        return passengers;
-    }
-
-    public void setPassengers(List<Passenger> passengers) {
-        this.passengers = passengers;
-    }
 }

@@ -21,6 +21,14 @@ public class Airline {
     @JsonIgnore
     private List<com.keyin.flight.Flight> flights; // Flights operated by this airline
 
+    // Default constructor for JPA
+    public Airline(String airlineName) {
+    }
+
+    // Default constructor for JPA
+    public Airline() {
+    }
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

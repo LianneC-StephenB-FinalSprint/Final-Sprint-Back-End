@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AircraftRepository extends JpaRepository<Aircraft, Integer> {
+public interface AircraftRepository extends JpaRepository<Aircraft, Long> {
     // Find all aircraft associated with a specific airport
     List<Aircraft> findByAirports(Airport airport);
 

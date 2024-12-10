@@ -29,7 +29,7 @@ public class PassengerService {
         return passengerRepository.findAll();
     }
 
-    public Passenger getPassengerById(Integer id) {
+    public Passenger getPassengerById(Long id) {
         return passengerRepository.findById(id).orElse(null);
     }
 
@@ -37,7 +37,7 @@ public class PassengerService {
         return passengerRepository.save(passenger);
     }
 
-    public Passenger updatePassenger(Integer id, Passenger passengerDetails) {
+    public Passenger updatePassenger(Long id, Passenger passengerDetails) {
         Passenger passenger = passengerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Passenger not found with id " + id));
 
@@ -57,7 +57,7 @@ public class PassengerService {
 
         return passengerRepository.save(passenger);
     }
-    public void deletePassenger(Integer id) { // Change to Long
+    public void deletePassenger(Long id) { // Change to Long
         passengerRepository.deleteById(id);
     }
 }

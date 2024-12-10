@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -57,8 +57,8 @@ public class Passenger {
         this.phoneNumber = phoneNumber;
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -75,11 +75,11 @@ public class Passenger {
     public List<Aircraft> getAircraftList() { return aircraftList; }
     public void setAircraftList(List<Aircraft> aircraftList) { this.aircraftList = aircraftList; }
 
-    public Integer getAirportId() {
+    public Long getAirportId() {
         return airport != null ? airport.getId() : null; // Returns null if airport is not set
     }
 
-    public void setAirportId(Integer airportId) {
+    public void setAirportId(Long airportId) {
         if (airportId != null) {
             this.airport = new Airport();
             this.airport.setId(airportId);

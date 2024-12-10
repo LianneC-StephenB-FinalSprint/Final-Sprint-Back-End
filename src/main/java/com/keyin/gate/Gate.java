@@ -24,6 +24,13 @@ public class Gate {
     @JsonIgnore
     private List<Flight> flights; // Flights assigned to this gate
 
+    public Gate(String gateName) {
+    }
+
+    public Gate() {
+    }
+
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
