@@ -28,7 +28,7 @@ public class AircraftService {
         return aircraftRepository.findAll();
     }
 
-    public Aircraft getAircraftById(Integer id) {
+    public Aircraft getAircraftById(Long id) {
         return aircraftRepository.findById(id).orElse(null);
     }
 
@@ -36,7 +36,7 @@ public class AircraftService {
         return aircraftRepository.save(aircraft);
     }
 
-    public Aircraft updateAircraft(Integer id, Aircraft aircraftDetails) {
+    public Aircraft updateAircraft(Long id, Aircraft aircraftDetails) {
         Optional<Aircraft> aircraftOptional = aircraftRepository.findById(id);
 
         if (aircraftOptional.isPresent()) {
@@ -50,24 +50,24 @@ public class AircraftService {
         }
     }
 
-    public void deleteAircraft(Integer id) {
+    public void deleteAircraft(Long id) {
         aircraftRepository.deleteById(id);
     }
 
     // Retrieve the list of airports associated with an aircraft
-    public List<Airport> getAirportsForAircraft(Integer aircraftId) {
+    public List<Airport> getAirportsForAircraft(Long aircraftId) {
         Aircraft aircraft = aircraftRepository.findById(aircraftId).orElse(null);
         return aircraft != null ? aircraft.getAirports() : null;
     }
 
     // Retrieve the list of passengers who have flown on a specific aircraft
-    public List<Passenger> getPassengersForAircraft(Integer aircraftId) {
+    public List<Passenger> getPassengersForAircraft(Long aircraftId) {
         Aircraft aircraft = aircraftRepository.findById(aircraftId).orElse(null);
         return aircraft != null ? aircraft.getPassengers() : null;
     }
 
     // Associate an airport with an aircraft
-    public Aircraft addAirportToAircraft(Integer aircraftId, Integer airportId) {
+    public Aircraft addAirportToAircraft(Long aircraftId, Long airportId) {
         Optional<Aircraft> aircraftOptional = aircraftRepository.findById(aircraftId);
         Optional<Airport> airportOptional = airportRepository.findById(airportId);
 
@@ -81,7 +81,7 @@ public class AircraftService {
     }
 
     // Associate a passenger with an aircraft
-    public Aircraft addPassengerToAircraft(Integer aircraftId, Integer passengerId) {
+    public Aircraft addPassengerToAircraft(Long aircraftId, Long passengerId) {
         Optional<Aircraft> aircraftOptional = aircraftRepository.findById(aircraftId);
         Optional<Passenger> passengerOptional = passengerRepository.findById(passengerId);
 
@@ -95,7 +95,7 @@ public class AircraftService {
     }
 
     @Transactional
-    public Aircraft updateAircraftAirports(Integer aircraftId, List<Integer> airportIds) {
+    public Aircraft updateAircraftAirports(Long aircraftId, List<Long> airportIds) {
         Aircraft aircraft = aircraftRepository.findById(aircraftId)
                 .orElseThrow(() -> new ResourceNotFoundException("Aircraft not found with id: " + aircraftId));
 

@@ -20,13 +20,13 @@ public class CityController {
     }
 
     @GetMapping("/{id}")
-    public City getCityById(@PathVariable Integer id) {
+    public City getCityById(@PathVariable Long id) {
         return cityService.getCityById(id);
     }
 
     // New endpoint to get airports within a city
     @GetMapping("/{id}/airports")
-    public List<Airport> getAirportsByCity(@PathVariable Integer id) {
+    public List<Airport> getAirportsByCity(@PathVariable Long id) {
         return cityService.getAirportsByCity(id);
     }
 
@@ -36,12 +36,12 @@ public class CityController {
     }
 
     @PutMapping("/{id}")
-    public City updateCity(@PathVariable Integer id, @RequestBody City city) {
+    public City updateCity(@PathVariable Long id, @RequestBody City city) {
         return cityService.updateCity(id, city);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCity(@PathVariable Integer id) {
+    public void deleteCity(@PathVariable Long id) {
         cityService.deleteCity(id);
     }
 }

@@ -2,7 +2,6 @@ package com.keyin;
 
 import com.keyin.city.CityController;
 import com.keyin.city.CityService;
-import com.keyin.city.City;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

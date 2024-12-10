@@ -20,25 +20,26 @@ public class AirportController {
     @Autowired
     private CityRepository cityRepository;
 
-    // GET all airports
+    // GET all airports and return them as AirportDTOs
     @GetMapping
-    public Iterable<Airport> getListOfAirportsInDB() {
-        return airportService.getAllAirports();
+    public List<AirportDTO> getListOfAirportsInDB() {
+        return airportService.getAllAirportsAsDTOs();
     }
 
+    // GET airport by ID and return it as AirportDTO
     @GetMapping("/{id}")
-    public ResponseEntity<Airport> getAirportById(@PathVariable Integer id) {
-        Airport airport = airportService.findById(id);
-        if (airport != null) {
-            return ResponseEntity.ok(airport);
-        } else {
+    public ResponseEntity<AirportDTO> getAirportById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(airportService.getAirportDTOById(id));
+        } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
+    // POST to create a new airport, associating it with a city
     @PostMapping
     public Airport createAirport(@RequestBody Airport airport) {
-        Integer cityId = airport.getCity().getId(); // Assuming city is part of the Airport object
+        Long cityId = airport.getCity().getId(); // Assuming city is part of the Airport object
         Optional<City> cityOptional = cityRepository.findById(cityId);
         if (cityOptional.isPresent()) {
             airport.setCity(cityOptional.get());
@@ -48,8 +49,9 @@ public class AirportController {
         }
     }
 
+    // PUT to update an existing airport by ID
     @PutMapping("/{id}")
-    public Airport updateAirport(@PathVariable Integer id, @RequestBody Airport airportDetails, @RequestParam Integer cityId) {
+    public Airport updateAirport(@PathVariable Long id, @RequestBody Airport airportDetails, @RequestParam Long cityId) {
         Optional<City> cityOptional = cityRepository.findById(cityId);
         if (cityOptional.isPresent()) {
             airportDetails.setCity(cityOptional.get());
@@ -59,20 +61,21 @@ public class AirportController {
         }
     }
 
+    // DELETE an airport by ID
     @DeleteMapping("/{id}")
-    public void deleteAirport(@PathVariable Integer id) {
+    public void deleteAirport(@PathVariable Long id) {
         airportService.deleteAirport(id);
     }
 
+    // GET airports by city ID
     @GetMapping("/byCity/{cityId}")
-    public List<Airport> getAirportsByCity(@PathVariable Integer cityId) {
+    public List<Airport> getAirportsByCity(@PathVariable Long cityId) {
         return airportService.getAirportsByCity(cityId);
     }
 
     // New endpoint to get airport information by name, code, and cityId
     @GetMapping("/info")
-    public Airport getAirportInfo(@RequestParam String name, @RequestParam String code, @RequestParam Integer cityId) {
-        // Logic to fetch the airport by name, code, and cityId
+    public Airport getAirportInfo(@RequestParam String name, @RequestParam String code, @RequestParam Long cityId) {
         return airportService.findAirportByNameCodeAndCity(name, code, cityId);
     }
 }

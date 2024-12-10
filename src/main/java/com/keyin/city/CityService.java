@@ -17,11 +17,11 @@ public class CityService {
         return cityRepository.findAll();
     }
 
-    public City getCityById(Integer id) {
+    public City getCityById(Long id) {
         return cityRepository.findById(id).orElse(null);
     }
 
-    public List<Airport> getAirportsByCity(Integer id) {
+    public List<Airport> getAirportsByCity(Long id) {
         Optional<City> city = cityRepository.findById(id);
         return city.map(City::getAirports).orElse(null);
     }
@@ -30,7 +30,7 @@ public class CityService {
         return cityRepository.save(city);
     }
 
-    public City updateCity(Integer id, City cityDetails) {
+    public City updateCity(Long id, City cityDetails) {
         Optional<City> cityOptional = cityRepository.findById(id);
 
         if (cityOptional.isPresent()) {
@@ -44,7 +44,7 @@ public class CityService {
         }
     }
 
-    public void deleteCity(Integer id) {
+    public void deleteCity(Long id) {
         cityRepository.deleteById(id);
     }
 }

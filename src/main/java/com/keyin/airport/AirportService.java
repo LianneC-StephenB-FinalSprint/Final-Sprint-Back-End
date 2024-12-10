@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AirportService {
@@ -23,7 +24,7 @@ public class AirportService {
     }
 
     // Retrieve airports by city ID
-    public List<Airport> getAirportsByCity(Integer cityId) {
+    public List<Airport> getAirportsByCity(Long cityId) {
         return airportRepository.findByCityId(cityId);
     }
 
@@ -33,7 +34,7 @@ public class AirportService {
     }
 
     // Update an existing airport by ID
-    public Airport updateAirport(Integer airportId, Airport airportDetails) {
+    public Airport updateAirport(Long airportId, Airport airportDetails) {
         Optional<Airport> airportOptional = airportRepository.findById(airportId);
 
         if (airportOptional.isPresent()) {
@@ -47,17 +48,44 @@ public class AirportService {
     }
 
     // Delete an airport by ID
-    public void deleteAirport(Integer airportId) {
+    public void deleteAirport(Long airportId) {
         airportRepository.deleteById(airportId);
     }
 
-    public Airport findById(Integer id) {
+    public Airport findById(Long id) {
         return airportRepository.findById(id).orElse(null);
     }
 
-    public Airport findAirportByNameCodeAndCity(String name, String code, Integer cityId) {
+    public Airport findAirportByNameCodeAndCity(String name, String code, Long cityId) {
         // Implement the logic to find the airport
         return airportRepository.findByNameAndCodeAndCityId(name, code, cityId)
                 .orElseThrow(() -> new RuntimeException("Airport not found"));
+    }
+
+    public AirportDTO mapToDTO(Airport airport) {
+        return new AirportDTO(
+                airport.getId(),
+                airport.getName(),
+                airport.getCode(),
+                airport.getLocation(),
+                airport.getCity().getName(),
+                airport.getCity().getState(),
+                airport.getDepartingFlights(),
+                airport.getArrivingFlights()
+        );
+    }
+
+    public List<AirportDTO> getAllAirportsAsDTOs() {
+        return airportRepository.findAll().stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public AirportDTO getAirportDTOById(Long id) {
+        Airport airport = findById(id);
+        if (airport != null) {
+            return mapToDTO(airport);
+        }
+        throw new RuntimeException("Airport not found with ID: " + id);
     }
 }

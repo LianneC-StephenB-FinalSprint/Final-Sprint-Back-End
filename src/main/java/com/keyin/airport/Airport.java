@@ -14,7 +14,7 @@ public class Airport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -35,11 +35,13 @@ public class Airport {
     private List<Aircraft> aircraft = new ArrayList<>();
 
     @OneToMany(mappedBy = "originAirport")
-    @JsonIgnore
+    //@JsonIgnore
+   @JsonManagedReference
     private List<Flight> departingFlights;
 
     @OneToMany(mappedBy = "destinationAirport")
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonManagedReference
     private List<Flight> arrivingFlights;
 
     // Default Constructor
@@ -52,10 +54,13 @@ public class Airport {
         this.code = code;
     }
 
+    public Airport(String originAirportName) {
+    }
+
     // Getters and Setters
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

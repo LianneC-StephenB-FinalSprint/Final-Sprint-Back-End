@@ -1,8 +1,6 @@
 package com.keyin.aircraft;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.keyin.airport.Airport;
 import com.keyin.passenger.Passenger;
 
@@ -15,7 +13,7 @@ import java.util.List;
 public class Aircraft {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String type;
     private String airlineName;
     private Integer numberOfPassengers;
@@ -31,7 +29,7 @@ public class Aircraft {
             inverseJoinColumns = @JoinColumn(name = "airport_id")
     )
     //@JsonBackReference
-    @JsonIgnore
+    //@JsonIgnore
     private List<Airport> airports = new ArrayList<>();
 
     // Relationship with Passenger (Many-to-Many)
@@ -47,11 +45,11 @@ public class Aircraft {
         this.numberOfPassengers = numberOfPassengers;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
