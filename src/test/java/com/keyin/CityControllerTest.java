@@ -1,5 +1,6 @@
 package com.keyin;
 
+import com.keyin.city.City;
 import com.keyin.city.CityController;
 import com.keyin.city.CityService;
 
@@ -48,7 +49,7 @@ public class CityControllerTest {
     @Test
     public void testGetCityById() throws Exception {
         City city = new City("San Francisco", "California", 883305);
-        when(cityService.getCityById(1)).thenReturn(city);
+        when(cityService.getCityById(1L)).thenReturn(city);
 
         mockMvc.perform(get("/api/cities/1"))
                 .andExpect(status().isOk())
@@ -57,7 +58,7 @@ public class CityControllerTest {
                 .andExpect(jsonPath("$.state").value("California"))  // Change country to state
                 .andExpect(jsonPath("$.population").value(883305));
 
-        verify(cityService).getCityById(1);
+        verify(cityService).getCityById(1L);
     }
 
     @Test
@@ -81,7 +82,7 @@ public class CityControllerTest {
     @Test
     public void testUpdateCity() throws Exception {
         City updatedCity = new City("San Diego", "California", 1423851);
-        when(cityService.updateCity(eq(1), any(City.class))).thenReturn(updatedCity);
+        when(cityService.updateCity(eq(1L), any(City.class))).thenReturn(updatedCity);
 
         String updatedCityJson = "{\"name\":\"San Diego\",\"state\":\"California\",\"population\":1423851}";  // Change country to state
 
@@ -93,7 +94,7 @@ public class CityControllerTest {
                 .andExpect(jsonPath("$.state").value("California"))  // Change country to state
                 .andExpect(jsonPath("$.population").value(1423851));
 
-        verify(cityService).updateCity(eq(1), any(City.class));
+        verify(cityService).updateCity(eq(1L), any(City.class));
     }
 
     @Test
@@ -101,6 +102,6 @@ public class CityControllerTest {
         mockMvc.perform(delete("/api/cities/1"))
                 .andExpect(status().isOk());
 
-        verify(cityService).deleteCity(1);
+        verify(cityService).deleteCity(1L);
     }
 }

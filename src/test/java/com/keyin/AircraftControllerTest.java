@@ -66,7 +66,7 @@ public class AircraftControllerTest {
     @Test
     public void testGetAircraftById() throws Exception {
         Aircraft aircraft = new Aircraft("Passenger", "Delta", 220);
-        when(aircraftService.getAircraftById(1)).thenReturn(aircraft);
+        when(aircraftService.getAircraftById(1L)).thenReturn(aircraft);
 
         mockMvc.perform(get("/api/aircraft/1"))
                 .andExpect(status().isOk())
@@ -74,13 +74,13 @@ public class AircraftControllerTest {
                 .andExpect(jsonPath("$.airlineName").value("Delta"))
                 .andExpect(jsonPath("$.numberOfPassengers").value(220));
 
-        verify(aircraftService).getAircraftById(1);
+        verify(aircraftService).getAircraftById(1L);
     }
 
     @Test
     public void testUpdateAircraft() throws Exception {
         Aircraft updatedAircraft = new Aircraft("Passenger", "United Airlines", 300);
-        when(aircraftService.updateAircraft(eq(1), any(Aircraft.class))).thenReturn(updatedAircraft);
+        when(aircraftService.updateAircraft(eq(1L), any(Aircraft.class))).thenReturn(updatedAircraft);
 
         String updatedAircraftJson = "{\"type\":\"Passenger\",\"airlineName\":\"United Airlines\",\"numberOfPassengers\":300}";
 
@@ -92,7 +92,7 @@ public class AircraftControllerTest {
                 .andExpect(jsonPath("$.airlineName").value("United Airlines"))
                 .andExpect(jsonPath("$.numberOfPassengers").value(300));
 
-        verify(aircraftService).updateAircraft(eq(1), any(Aircraft.class));
+        verify(aircraftService).updateAircraft(eq(1L), any(Aircraft.class));
     }
 
     @Test
@@ -100,6 +100,6 @@ public class AircraftControllerTest {
         mockMvc.perform(delete("/api/aircraft/1"))
                 .andExpect(status().isOk());
 
-        verify(aircraftService).deleteAircraft(1);
+        verify(aircraftService).deleteAircraft(1L);
     }
 }

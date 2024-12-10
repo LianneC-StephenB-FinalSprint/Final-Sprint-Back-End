@@ -31,17 +31,17 @@ public class Airport {
 
     @ManyToMany(mappedBy = "airports")
     //@JsonManagedReference  // This ensures the forward reference in `Airport` will be serialized
-    @JsonIgnore
+    //@JsonIgnore
     private List<Aircraft> aircraft = new ArrayList<>();
 
     @OneToMany(mappedBy = "originAirport")
     //@JsonIgnore
-   @JsonManagedReference
+   //@JsonManagedReference
     private List<Flight> departingFlights;
 
     @OneToMany(mappedBy = "destinationAirport")
     //@JsonIgnore
-    @JsonManagedReference
+    //@JsonManagedReference
     private List<Flight> arrivingFlights;
 
     // Default Constructor
