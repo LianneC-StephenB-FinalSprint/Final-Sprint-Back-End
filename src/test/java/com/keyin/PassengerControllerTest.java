@@ -48,7 +48,7 @@ public class PassengerControllerTest {
     @Test
     public void testGetPassengerById() throws Exception {
         Passenger passenger = new Passenger("Alice", "Johnson", "555555555");
-        when(passengerService.getPassengerById(1)).thenReturn(passenger);
+        when(passengerService.getPassengerById(1L)).thenReturn(passenger);
 
         mockMvc.perform(get("/api/passengers/1"))
                 .andExpect(status().isOk())
@@ -57,7 +57,7 @@ public class PassengerControllerTest {
                 .andExpect(jsonPath("$.lastName").value("Johnson"))
                 .andExpect(jsonPath("$.phoneNumber").value("555555555"));
 
-        verify(passengerService).getPassengerById(1);
+        verify(passengerService).getPassengerById(1L);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class PassengerControllerTest {
     @Test
     public void testUpdatePassenger() throws Exception {
         Passenger updatedPassenger = new Passenger("Emily", "Clark", "222222222");
-        when(passengerService.updatePassenger(eq(1), any(Passenger.class))).thenReturn(updatedPassenger);
+        when(passengerService.updatePassenger(eq(1L), any(Passenger.class))).thenReturn(updatedPassenger);
 
         String updatedPassengerJson = "{\"firstName\":\"Emily\",\"lastName\":\"Clark\",\"phoneNumber\":\"222222222\"}";
 
@@ -95,7 +95,7 @@ public class PassengerControllerTest {
                 .andExpect(jsonPath("$.lastName").value("Clark"))
                 .andExpect(jsonPath("$.phoneNumber").value("222222222"));
 
-        verify(passengerService).updatePassenger(eq(1), any(Passenger.class));
+        verify(passengerService).updatePassenger(eq(1L), any(Passenger.class));
     }
 
     @Test
@@ -103,6 +103,6 @@ public class PassengerControllerTest {
         mockMvc.perform(delete("/api/passengers/1"))
                 .andExpect(status().isOk());
 
-        verify(passengerService).deletePassenger(1);
+        verify(passengerService).deletePassenger(1L);
     }
 }
